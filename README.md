@@ -20,18 +20,17 @@
 
 **Официальные ресурсы проекта:**
 
-- Веб-сайт : [перейти]()
-- Twitter : [перейти]()
-- Discord : [перейти]()
+- Веб-сайт : [перейти](https://www.puffer.fi/)
+- Twitter : [перейти](https://twitter.com/puffer_finance)
+- Discord : [перейти](https://discord.gg/pufferfi)
+- GitHub : [перейти](https://github.com/PufferFinance)
 
 ### Системные требования к серверу:
 
-- CPU :
-- RAM :
-- Storage :
-- OS :
-
-- 
+- **CPU : 4 cores;**
+- **RAM : 16 GB;**
+- **Disk : 2 TB SSD(NVMe рекомендован) + 14 TB SSD для архива Ethereum;**
+- **OS : Ubuntu 20.04**
 
 
 
