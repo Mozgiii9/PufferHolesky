@@ -258,8 +258,8 @@ ls
 
 ```
 
-<PATH_TO_A_KEYSTORE_PASSWORD_FILE> <--- Указываем путь к файлу "password.txt", который мы создавали ранее
-<PATH_TO_REGISTRATION_JSON> <--- Указываем путь "puffer/coral/" без кавычек! В данную папку будет сохранен файл "registration.json"
+<PATH_TO_A_KEYSTORE_PASSWORD_FILE> <--- "password.txt"
+<PATH_TO_REGISTRATION_JSON> <--- "registration.json"
 
 ```
 
