@@ -109,9 +109,26 @@ install_puffer() {
     --network:holesky \
     --data-dir=build/data/shared_holesky_0 \
     --trusted-node-url=https://holesky-checkpoint-sync.stakely.io/
-  cp ~/puffer/coral/etc/keys/bls_keys/* ~/nimbus-eth2/build/data/shared_holesky_0/validators/
+
+  # Проверяем существование директории и копируем файлы
+  mkdir -p ~/nimbus-eth2/build/data/shared_holesky_0/validators/
+  if [ "$(ls -A ~/puffer/coral/etc/keys/bls_keys/)" ]; then
+    cp ~/puffer/coral/etc/keys/bls_keys/* ~/nimbus-eth2/build/data/shared_holesky_0/validators/
+  else
+    echo "Файлы в директории ~/puffer/coral/etc/keys/bls_keys/ не найдены."
+  fi
+
   mkdir -p ~/nimbus-eth2/validator_keys/
-  cp ~/nimbus-eth2/build/data/shared_holesky_0/validators/* ~/nimbus-eth2/validator_keys/keystore.json
+  
+  # Проверяем существование файлов и копируем их
+  if [ "$(ls -A ~/nimbus-eth2/build/data/shared_holesky_0/validators/)" ]; then
+    for file in ~/nimbus-eth2/build/data/shared_holesky_0/validators/*; do
+        cp "$file" ~/nimbus-eth2/validator_keys/keystore.json
+    done
+  else
+    echo "Файлы в директории ~/nimbus-eth2/build/data/shared_holesky_0/validators/ не найдены."
+  fi
+
   screen -dmS consensus
   screen -S consensus -X stuff "cd ~/nimbus-eth2/\n"
   screen -S consensus -X stuff "build/nimbus_beacon_node deposits import --data-dir=~/nimbus-eth2/validator_keys/keystore.json\n"
@@ -119,6 +136,7 @@ install_puffer() {
   screen -S consensus -X stuff "./run-holesky-beacon-node.sh --web3-url=http://127.0.0.1:8551 --suggested-fee-recipient=$wallet_address --jwt-secret=/tmp/jwtsecret\n"
   wget https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
   sudo dpkg -i packages-microsoft-prod.deb
+  cd
   sudo apt-get update
   sudo apt-get install dotnet-sdk-8.0 dotnet-runtime-8.0 -y
   dotnet --list-sdks
