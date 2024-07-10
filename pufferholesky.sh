@@ -158,15 +158,13 @@ fix_active_error() {
   rm -r nethermind-datadir
   cd ~/nimbus-eth2
   build/nimbus_beacon_node deposits import --data-dir=build/data/shared_holesky_0
-  read -sp "Введите пароль от своих Validator Keys: " validator_password
-  echo $validator_password | build/nimbus_beacon_node deposits import --data-dir=build/data/shared_holesky_0
-  screen -dmS consensus
+  screen -r consensus
   wallet_address=$(cat ~/wallet_address.txt)
-  screen -S consensus -X stuff "cd ~/nimbus-eth2/\n"
-  screen -S consensus -X stuff "./run-holesky-beacon-node.sh --web3-url=http://127.0.0.1:8551 --suggested-fee-recipient=$wallet_address --jwt-secret=/tmp/jwtsecret\n"
-  screen -dmS execution
-  screen -S execution -X stuff "cd ~/nethermind/src/Nethermind/Nethermind.Runner\n"
-  screen -S execution -X stuff "dotnet run -c Release -- --config=holesky --datadir='../../../../nethermind-datadir' --JsonRpc.Host=0.0.0.0 --JsonRpc.JwtSecretFile=/tmp/jwtsecret\n"
+  screen -r consensus -X stuff "cd ~/nimbus-eth2/\n"
+  screen -r consensus -X stuff "./run-holesky-beacon-node.sh --web3-url=http://127.0.0.1:8551 --suggested-fee-recipient=$wallet_address --jwt-secret=/tmp/jwtsecret\n"
+  screen -r execution
+  screen -r execution -X stuff "cd ~/nethermind/src/Nethermind/Nethermind.Runner\n"
+  screen -r execution -X stuff "dotnet run -c Release -- --config=holesky --datadir='../../../../nethermind-datadir' --JsonRpc.Host=0.0.0.0 --JsonRpc.JwtSecretFile=/tmp/jwtsecret\n"
   echo "В ближайшие несколько часов Ваш статус Active должен смениться на зеленый. Если этого не произошло - проделайте установку ноды с нуля, полностью переустановив сервер."
   display_menu
 }
